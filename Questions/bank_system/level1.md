@@ -2,9 +2,7 @@
 
 Your task is to implement a simplified version of a banking system. All operations that should be supported are listed below.
 
-Solving this task consists of several levels. Subsequent levels are opened when the current level is correctly solved. You always have access to the data for the current and all previous levels.
-
-You can execute a single test case by running the following command in the terminal: `bash run_single_test.sh "<test_case_name>"`.
+Solving this task consists of several levels. In real test, a subsequent level is opened when the current level tests are correct. You always have access to the data for the current and all previous levels.
 
 ## Requirements
 
@@ -15,7 +13,7 @@ Your task is to implement a simplified version of a banking system. Plan your de
 *   **Level 3:** The banking system should allow scheduling payments with cashback and checking the status of scheduled payments.
 *   **Level 4:** The banking system should support merging two accounts while retaining both accounts’ balance and transaction histories.
 
-To move to the next level, you should pass all the tests at this level.
+To move to the next level, you need to pass all the tests at this level.
 
 ## Note
 
@@ -46,5 +44,11 @@ The example below shows how these operations should work:
 | transfer(6, "account1", "account2", 2701) | returns None; this account has insufficient funds for the transfer |
 | transfer(7, "account1", "account2", 200) | returns 2500 |
 
+
+## Test
+You can execute a single test case by running the following command in the terminal: `pytest Questions/bank_system/test_bank_system.py::TestLevel1 -v` from the project root directory.
+
+
 *   **\[execution time limit\]** 3 seconds
 *   **\[memory limit\]** 1 GB
+
