@@ -35,5 +35,8 @@ The example below shows how these operations should work:
 | deposit(99 + MILLISECONDS\_IN\_1\_DAY, "account1", 100) | returns 320; cashback for "payment2" was not refunded yet |
 | deposit(100 + MILLISECONDS\_IN\_1\_DAY, "account1", 100) | returns 440; cashback of `20` from "payment2" was refunded |
 
+## Test
+You can execute the test cases for this level by running the following command in the terminal: `pytest Questions/bank_system/test_bank_system.py::TestLevel3 -v` from the project root directory.
+
 *   **\[execution time limit\]** 3 seconds
 *   **\[memory limit\]** 1 GB

@@ -1,7 +1,8 @@
 import pytest
 import sys
 import os
-from simulation import Simulation 
+from simulation_solution import Simulation 
+
 class TestLevel1:  
     def test_create_account(self):
         simulation = Simulation()
@@ -89,10 +90,74 @@ class TestLevel2:
         simulation.transfer(9, "acc3", "acc1", 300)  # acc3 outgoing: 300
         top_2 = simulation.top_spenders(10, 3)
         assert top_2 == ["acc1(500)", "acc2(500)", "acc3(300)"]
-        
+
 class TestLevel3:
-    def test_3(self):
-        print("!")
+    def test_pay_no_account_id(self):
+        simulation = Simulation()
+        assert simulation.pay(1, "non_existent", 100) == None
+        assert simulation.get_payment_status(2, "non_existent", "payment1") == None
+
+    def test_pay_insufficient_funds(self):
+        simulation = Simulation()
+        simulation.create_account(1, "acc1")
+        simulation.deposit(2, "acc1", 100)
+        assert simulation.pay(3, "acc1", 200) == None
+
+    def test_pay_top_spenders(self):
+        simulation = Simulation()
+        simulation.create_account(1, "acc1")
+        simulation.deposit(2, "acc1", 1000)
+        payment_id1 = simulation.pay(3, "acc1", 500)
+        assert payment_id1 == "payment1"
+        payment_id2 = simulation.pay(4, "acc1", 300)
+        assert payment_id2 == "payment2"
+        simulation.create_account(5, "acc2")
+        simulation.deposit(6, "acc2", 800)
+        simulation.transfer(7, "acc2", "acc1", 200)
+        top_1 = simulation.top_spenders(5, 2)
+        assert top_1 == ["acc1(800)", "acc2(200)"]
+
+    def test_payment_status_non_existent_account(self):
+        simulation = Simulation()
+        assert simulation.get_payment_status(1, "non_existent", "payment1") == None
+
+    def test_payment_status_non_existent_payment(self):
+        simulation = Simulation()
+        simulation.create_account(1, "acc1")
+        assert simulation.get_payment_status(2, "acc1", "payment1") == None
+
+    def test_payment_status_inconsistent_accountid_and_paymentid(self):
+        simulation = Simulation()
+        simulation.create_account(1, "acc1")
+        simulation.deposit(2, "acc1", 1000)
+        payment_id = simulation.pay(3, "acc1", 500)
+        assert payment_id == "payment1"
+        # Create a different account
+        simulation.create_account(4, "acc2")
+        # Querying payment status with wrong account_id
+        assert simulation.get_payment_status(4, "acc2", payment_id) == None 
+
+    def test_pay_cashback_and_status(self):
+        simulation = Simulation()
+        simulation.create_account(1, "acc1")
+        simulation.deposit(2, "acc1", 1000)
+        payment_id = simulation.pay(3, "acc1", 500)
+        assert payment_id == "payment1"
+        # Before cashback time
+        status_in_progress = simulation.get_payment_status(4, "acc1", 
+                                                           payment_id)
+        assert status_in_progress == "IN_PROGRESS"
+        status_before_cashback = simulation.get_payment_status(26*3600, 
+                                                               "acc1", 
+                                                               payment_id)
+        # After cashback time (Exactly 24 hours after the payment)
+        status_after_cashback = simulation.get_payment_status(24 * 60 * 60 * 1000 + 3, 
+                                                              "acc1", 
+                                                              payment_id)
+        assert status_after_cashback == "CASHBACK_RECEIVED"
+        # Check balance after cashback
+        final_balance = simulation.deposit(28*3600, "acc1", 0)  # deposit 0 to get current balance
+        assert final_balance == 1000 - 500 + 10  # 2% of 500 is 10
 
 class TestLevel4:
     def test_4(self):

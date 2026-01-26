@@ -48,3 +48,6 @@ The examples below show how these operations should work:
 | get\_balance(4, "account1", 3) | returns 700 |
 | get\_balance(5 + MILLISECONDS\_IN\_1\_DAY, "account1", 2 + MILLISECONDS\_IN\_1\_DAY) | returns 700 |
 | get\_balance(6 + MILLISECONDS\_IN\_1\_DAY, "account1", 3 + MILLISECONDS\_IN\_1\_DAY) | returns 706; cashback for "payment1" was refunded |
+
+## Test
+You can execute the test cases for this level by running the following command in the terminal: `pytest Questions/bank_system/test_bank_system.py::TestLevel4 -v` from the project root directory.

@@ -46,7 +46,7 @@ The example below shows how these operations should work:
 
 
 ## Test
-You can execute a single test case by running the following command in the terminal: `pytest Questions/bank_system/test_bank_system.py::TestLevel1 -v` from the project root directory.
+You can execute the test cases for this level by running the following command in the terminal: `pytest Questions/bank_system/test_bank_system.py::TestLevel1 -v` from the project root directory.
 
 
 *   **\[execution time limit\]** 3 seconds
