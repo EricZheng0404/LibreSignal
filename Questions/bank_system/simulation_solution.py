@@ -1,3 +1,13 @@
+"""
+A solution for the bank system simulation problem.
+============================================================
+This implementation includes account creation, deposits, transfers,
+top spenders tracking, payments with cashback, account merging, and
+historical balance retrieval.
+
+Author: Eric Zheng
+Date: Jan 2026
+"""
 from collections import deque
 class Account:
     def __init__(self, account_id: str, created_at: int):
@@ -6,7 +16,8 @@ class Account:
         self.outgoing = 0  # Total outgoing transactions (transfers out, payments)
         self.payments: dict[str, str] = {}  # {payment_id: status}
         self.created_at = created_at
-        # Balance history: list of (timestamp, balance) - records balance AFTER each operation
+        # Balance history: list of (timestamp, balance). 
+        # Records balance AFTER each operation
         self.balance_history: list[tuple[int, int]] = [(created_at, 0)]
     
     def record_balance(self, timestamp: int) -> None:
@@ -30,6 +41,7 @@ class Account:
         if time_at < self.created_at:
             return None
         # Find the latest balance at or before time_at
+        # You could use binary search for efficiency
         result = None
         for ts, balance in self.balance_history:
             if ts <= time_at:
@@ -177,7 +189,7 @@ class Simulation:
         # Merge payments (account1 inherits account2's payment statuses)
         account1.payments.update(account2.payments)
         
-        # Merge balance history - combine and sort by timestamp
+        # Merge balance history: combine and sort by timestamp
         account1.balance_history.extend(account2.balance_history)
         account1.balance_history.sort(key=lambda x: x[0])
         

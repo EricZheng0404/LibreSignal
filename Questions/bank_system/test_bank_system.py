@@ -1,7 +1,16 @@
+"""
+Testing suite for the Bank System simulation.
+============================================================
+This suite uses pytest to validate the functionality of the bank system 
+simulation.
+
+Author: Eric Zheng
+Date: Jan 2026
+"""
 import pytest
 import sys
 import os
-from simulation_solution import Simulation 
+from simulation import Simulation 
 
 class TestLevel1:  
     def test_create_account(self):
@@ -211,6 +220,5 @@ class TestLevel4:
                                       "acc1", 
                                       24 * 60 * 60 * 1000 + 3) == 706
 
-# pytest Questions/bank_system/test_bank_system.py::TestLevel1 -v
 
 
