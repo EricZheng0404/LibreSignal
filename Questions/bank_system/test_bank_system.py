@@ -160,8 +160,56 @@ class TestLevel3:
         assert final_balance == 1000 - 500 + 10  # 2% of 500 is 10
 
 class TestLevel4:
-    def test_4(self):
-        print("Goodbye")
+    def test_account_id_1_not_exist(self):
+        simulation = Simulation()
+        simulation.create_account(1, "acc2")
+        assert simulation.merge_accounts(2, "acc1", "acc2") == False
+
+    def test_account_id_2_not_exist(self):
+        simulation = Simulation()
+        simulation.create_account(1, "acc1")
+        assert simulation.merge_accounts(2, "acc1", "acc2") == False
+
+    def test_merge_cashback(self):
+        simulation = Simulation()
+        simulation.create_account(1, "acc1")
+        simulation.deposit(2, "acc1", 1000)
+        payment_id = simulation.pay(3, "acc1", 500) 
+        assert payment_id is not None
+        simulation.create_account(4, "acc2")
+        simulation.merge_accounts(5, "acc2", "acc1")
+        status_acc2 = simulation.get_payment_status(6, "acc2", payment_id)
+        assert status_acc2 == "IN_PROGRESS"
+        status_after_cashback = simulation.get_payment_status(24 * 60 * 60 * 1000 + 3, 
+                                                              "acc2",
+                                                                payment_id)
+        assert status_after_cashback == "CASHBACK_RECEIVED"
+        assert simulation.deposit(24 * 60 * 60 * 1000 + 5, "acc2", 0) == 510
+
+    def test_merge_top_spender(self):
+        simulation = Simulation()
+        simulation.create_account(1, "acc1")
+        simulation.deposit(2, "acc1", 1000)
+        simulation.pay(3, "acc1", 500) 
+        simulation.create_account(4, "acc2")
+        simulation.deposit(5, "acc2", 2000)
+        simulation.pay(6, "acc2", 800) 
+        simulation.merge_accounts(7, "acc1", "acc2")
+        top_1 = simulation.top_spenders(8, 1)
+        assert top_1 == ["acc1(1300)"]  # acc1 now has acc2's outgoing too
+
+    def test_cashback(self):
+        simulation = Simulation()
+        simulation.create_account(1, "acc1")
+        simulation.deposit(2, "acc1", 1000)
+        simulation.pay(3, "acc1", 300)
+        assert simulation.get_balance(4, "acc1", 3) == 700
+        assert simulation.get_balance(24 * 60 * 60 * 1000 + 5, 
+                                      "acc1", 
+                                      24 * 60 * 60 * 1000 + 2) == 700
+        assert simulation.get_balance(24 * 60 * 60 * 1000 + 5, 
+                                      "acc1", 
+                                      24 * 60 * 60 * 1000 + 3) == 706
 
 # pytest Questions/bank_system/test_bank_system.py::TestLevel1 -v
 
