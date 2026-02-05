@@ -83,7 +83,7 @@ class TestLevel2:
         simulation.deposit(2, "acc1", 1000)
         simulation.create_account(3, "acc2")
         simulation.transfer(4, "acc1", "acc2", 500)
-        top_1 = simulation.top_spenders(3, 1)
+        top_1 = simulation.top_spenders(5, 1)
         assert top_1 == ["acc1(500)"]
 
     def test_top_spenders_tie(self):
