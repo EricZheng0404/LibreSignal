@@ -20,9 +20,9 @@ Level 1
 
 The basic level of the in-memory database contains records. Each record can be accessed with a unique identifier key of string type. A record may contain several field-value pairs, both of which are of string type.
 
-* `SET <key> <field> <value>` — should insert a field-value pair to the record associated with key. If the field in the record already exists, replace the existing value with the specified value. If the record does not exist, create a new one. This operation should return an empty string.
-* `GET <key> <field>` — should return the value contained within field of the record associated with key. If the record or the field doesn't exist, should return an empty string.
-* `DELETE <key> <field>` — should remove the field from the record associated with key. Returns "true" if the field was successfully deleted, and "false" if the key or the field do not exist in the database.
+* `set(key, field, value)` — should insert a field-value pair to the record associated with key. If the field in the record already exists, replace the existing value with the specified value. If the record does not exist, create a new one. This operation should return an empty string.
+* `get(key, field)` — should return the value contained within field of the record associated with key. If the record or the field doesn't exist, should return an empty string.
+* `delete(key, field)` — should remove the field from the record associated with key. Returns "true" if the field was successfully deleted, and "false" if the key or the field do not exist in the database.
 
 ### Examples
 
@@ -30,9 +30,9 @@ The example below shows how these operations should work:
 
 | Queries | Explanations |
 | --- | --- |
-| `["SET", "A", "B", "E"]` | returns ""; database state: `{"A": {"B": "E"}}` |
-| `["SET", "A", "C", "F"]` | returns ""; database state: `{"A": {"C": "F", "B": "E"}}` |
-| `["GET", "A", "B"]` | returns "E" |
-| `["GET", "A", "D"]` | returns "" |
-| `["DELETE", "A", "B"]` | returns "true"; database state: `{"A": {"C": "F"}}` |
-| `["DELETE", "A", "D"]` | returns "false"; database state: `{"A": {"C": "F"}}` |
+| `set("A", "B", "E")` | returns ""; database state: `{"A": {"B": "E"}}` |
+| `set("A", "C", "F")` | returns ""; database state: `{"A": {"C": "F", "B": "E"}}` |
+| `get("A", "B")` | returns "E" |
+| `get("A", "D")` | returns "" |
+| `delete("A", "B")` | returns "true"; database state: `{"A": {"C": "F"}}` |
+| `delete("A", "D")` | returns "false"; database state: `{"A": {"C": "F"}}` |
