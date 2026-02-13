@@ -122,8 +122,42 @@ class TestLevel3:
         assert db.scan_by_prefix_at('B', 'B', '21') == ''
         assert db.scan_by_prefix_at('A', 'E', '33') == ''
 
-        
+class TestLevel4:
+    def test_backup(self):
+        db = InMemoryDatabase()
+        # expire at 16
+        assert db.set_at_with_ttl('A', 'BC', 'D', '1', '15') == ''
+        # expire at 22
+        assert db.set_at_with_ttl('A', 'EF', 'G', '2', '20') == ''
+        # expire at 33
+        assert db.set_at_with_ttl('A', 'BD', 'E', '3', '30') == ''
+        assert db.backup('4') == '3'
+        assert db.backup('16') == '2'
+        assert db.backup('33') == '0' 
+    
+    def test_nothing_to_backup(self):
+        db = InMemoryDatabase()
+        assert db.backup('1') == '0'
+        assert db.set_at_with_ttl('A', 'BC', 'D', '2', '15') == ''
+        # expire at 22
+        assert db.set_at_with_ttl('A', 'EF', 'G', '3', '20') == ''
+        # expire at 33
+        assert db.set_at_with_ttl('A', 'BD', 'E', '4', '30') == ''
+        assert db.backup('34') == '0'
 
-
-class Level4:
-    pass
+    def test_restore(self):
+        db = InMemoryDatabase()
+         # expire at 16
+        assert db.set_at_with_ttl('A', 'BC', 'D', '1', '15') == ''
+        assert db.backup('2') == '1'
+        # expire at 22
+        assert db.set_at_with_ttl('A', 'EF', 'G', '3', '20') == ''
+        # expire at 33
+        assert db.set_at_with_ttl('A', 'BD', 'E', '4', '30') == ''
+        assert db.backup('5') == '3'
+        assert db.restore('6', '2') == ''
+        assert db.scan_at('A', '7') == 'BC(D)'
+        assert db.delete_at('A', 'BC', '8') == 'true'
+        # latest backup before or at timestampToRestore.
+        assert db.restore('9', '6') == ''
+        assert db.scan_at('A', '8') == 'BC(D), BD(E), EF(G)'

@@ -1,8 +1,15 @@
+import copy
+import collections
+
 class InMemoryDatabase:
     def __init__(self):
         self.map = {}
+        # level 3
         self.map_ts = {}
         self.ts = 0
+        # level 4
+        self.backup_map = collections.defaultdict(dict)
+        self.backup_map_ts = collections.defaultdict(dict)
 
     def set(self,key, field, value):
         if key not in self.map:
@@ -171,3 +178,45 @@ class InMemoryDatabase:
             del self.map[key][field]
 
         return self.scan_by_prefix(key, prefix)
+    
+
+    def backup(self, ts):
+        # cleanup first
+        map_ts_delete = []
+        map_delete = []
+        for key in self.map_ts:
+            items = self.map_ts[key].items()
+            for field_val, expire_time in items:
+                field = field_val.split(',')[0]
+                if expire_time <= int(ts):
+                    map_ts_delete.append(field_val)
+                    map_delete.append(field)
+
+        for map_ts_key in map_ts_delete:
+            del self.map_ts[key][map_ts_key]
+        for field in map_delete:
+            del self.map[key][field]       
+
+
+        # deep copy
+        self.backup_map[ts] = copy.deepcopy(self.map)
+        self.backup_map_ts[ts] = copy.deepcopy(self.map_ts)
+        # set timestamp
+        self.ts = ts
+
+        cnt = 0
+        for key in self.map:
+            cnt += len(self.map[key])
+        return str(cnt)
+    
+    def restore(self, ts, ts_to_restore):
+        self.ts = ts
+        ts_val = '-1'
+        for i in range(int(ts_to_restore), -1, -1):
+            if str(i) in self.backup_map:
+                ts_val = str(i)
+                break
+
+        self.map = copy.deepcopy(self.backup_map[ts_val])
+        self.map_ts = copy.deepcopy(self.backup_map_ts[ts_val])
+        return ''
