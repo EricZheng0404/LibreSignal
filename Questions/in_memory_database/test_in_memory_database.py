@@ -30,7 +30,24 @@ class TestLevel1:
         assert db.delete("non_existent", "field") == "false"
 
 class TestLevel2:
-    pass
+    def test_scan(self):
+        db = InMemoryDatabase()
+        assert db.set("user1", "name", "Alice") == ""
+        assert db.set("user1", "age", "30") == ""
+        assert db.set("user1", "city", "NY") == ""
+        assert db.set("user1", "abc", "123") == ""
+        assert db.scan("user1") == "abc(123), age(30), city(NY), name(Alice)"
+        assert db.scan("non_existent") == ""
+
+    def test_scan_by_prefix(self):
+        db = InMemoryDatabase()
+        assert db.set("user1", "name", "Alice") == ""
+        assert db.set("user1", "age", "30") == ""
+        assert db.set("user1", "city", "NY") == ""
+        assert db.set("user1", "abc", "123") == ""
+        assert db.scan_by_prefix("user1", "a") == "abc(123), age(30)"
+        assert db.scan_by_prefix("user1", "n") == "name(Alice)"
+        assert db.scan_by_prefix("user1", "xyz") == ""
 
 class TestLevel3:
     pass

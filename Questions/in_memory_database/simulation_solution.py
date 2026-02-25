@@ -1,5 +1,6 @@
 class InMemoryDatabase:
     def __init__(self):
+        # key: {field: value}
         self.database = {}
 
     def set(self, key, field, value):
@@ -19,3 +20,10 @@ class InMemoryDatabase:
         del self.database[key][field]
         return "true"
 
+    def scan(self, key):
+        if key not in self.database:
+            return ""
+        items = list(self.database[key].items())
+        print("items:", items)
+        items.sort()  # Sort by field name
+        return ", ".join(f"{field}({value})" for field, value in items)
