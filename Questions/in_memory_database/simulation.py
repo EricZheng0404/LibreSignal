@@ -13,6 +13,9 @@ class Simulation:
 
     def delete(self,key, field):
         pass
+    
+    def scan(self, key):
+        pass
 
-    
-    
+    def scan_by_prefix(self, key, prefix):
+        pass

@@ -1,7 +1,7 @@
 import pytest
 from simulation_solution import InMemoryDatabase
 from simulation import Simulation
-class Level1:
+class TestLevel1:
     def test_set_and_get(self):
         db = InMemoryDatabase()
         assert db.set("user1", "name", "Alice") == ""
@@ -29,11 +29,11 @@ class Level1:
         assert db.delete("user1", "name") == "false"
         assert db.delete("non_existent", "field") == "false"
 
-class Level2:
+class TestLevel2:
     pass
 
-class Level3:
+class TestLevel3:
     pass
 
-class Level4:
+class TestLevel4:
     pass
