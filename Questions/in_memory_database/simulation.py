@@ -1,7 +1,7 @@
 """
 All your implementation code for the bank system simulation goes here.
 """
-class Simulation:
+class InMemoryDatabase:
     def __init__(self):
         pass
 
