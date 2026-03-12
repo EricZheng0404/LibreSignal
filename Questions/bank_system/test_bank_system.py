@@ -10,6 +10,8 @@ Date: Jan 2026
 import pytest
 import sys
 import os
+# Uncomment the following line to import solution implementation for testing
+# from simulation_solution import InMemoryDatabase
 from simulation import Simulation
 
 class TestLevel1:

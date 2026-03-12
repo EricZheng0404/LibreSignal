@@ -105,8 +105,6 @@ pytest Questions/in_memory_database/test_in_memory_database.py::TestLevel4 -v
 pytest Questions/in_memory_database/test_in_memory_database.py -v
 ```
 
-> **Tip:** By default, `simulation.py` imports are commented out in the test files. To test your own implementation, open the test file and swap the import from `simulation_solution` to `simulation`.
-
 ## 📁 Project Structure
 
 ```
