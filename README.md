@@ -167,4 +167,4 @@ This project is open source and available under the [MIT License](LICENSE).
 ---
 
 **Last Updated:** March 2, 2026  
-*Made with ❤️ in Boston*
+*Made with [I hate doing meaningless coding questions but I want a job] in Boston*
