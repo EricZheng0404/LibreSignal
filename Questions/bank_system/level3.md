@@ -7,11 +7,11 @@ The banking system should allow scheduling payments with some cashback and check
     *   Returns `None` if `account_id` has insufficient funds to perform the payment.
     *   `top_spenders` should now also account for the total amount of money withdrawn from accounts.
     *   The waiting period for cashback is 24 hours, equal to `24 * 60 * 60 * 1000 = 86400000` milliseconds (the unit for timestamps). So, cashback will be processed at timestamp `timestamp + 86400000`.
-    *   When it's time to process cashback for a withdrawal, the amount must be refunded to the account before any other transactions are performed at the relevant timestamp.
+    *   When it's time to process cashback for a deposit, the amount must be refunded to the account before any other transactions are performed at the relevant timestamp.
 *   `get_payment_status(self, timestamp: int, account_id: str, payment: str) -> str | None` — should return the status of the payment transaction for the given `payment`. Specifically:
     *   Returns `None` if `account_id` doesn’t exist.
     *   Returns `None` if the given `payment` doesn’t exist for the specified account.
-    *   Returns `None` if the payment transaction was for an account with a different identifier from `account_id`.
+    *   Returns `None` if the payment transaction was for an account with a different identifier from `account_id`. (consider removing, this is irrelevant, the behavior doesn't not change from a previous line, we do not go looking in other accounts if `payment` doesn’t exist for the specified account.)
     *   Returns a string representing the payment status: `"IN_PROGRESS"` or `"CASHBACK_RECEIVED"`.
 
 ## Examples
