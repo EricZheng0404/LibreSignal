@@ -159,6 +159,10 @@ Found a bug? Have a new question to add? Contributions are welcome!
 This project is open source and available under the [MIT License](LICENSE).
 
 ---
+## Disclaimer 
+**Important:** This toy task does NOT model real-world banking behavior. Remove assumptions from real banking systems when implementing changes here, because they WILL lead you down the wrong path. For example, we do not merge accounts in real life, we do not drop a transaction and only keep a cashback record, we do not reuse transaction IDs, and we do not construct transaction IDs in that way.
+
+---
 
 **Good luck with your assessment!** 🍀
 
