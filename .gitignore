@@ -1,0 +1,13 @@
+# Python
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
+
+# Go
+**/*.exe
+**/go.mod
+**/go.sum
+
+# Vscode
+.vscode
