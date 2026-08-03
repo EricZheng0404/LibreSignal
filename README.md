@@ -75,6 +75,37 @@ For example, instead of storing account data in a simple dict, create an `Accoun
 3. Implement your solution in `simulation.py`
 4. **Start with Level 1 and progress sequentially** — just like the real test!
 
+### Simulation Method & Debugging
+
+LibreSignal uses one class per assessment, with methods that match the level
+specs directly. For example, the bank problem exposes `Simulation.create_account`,
+`Simulation.deposit`, `Simulation.transfer`, and so on. This is intentionally
+different from the older single-function dispatcher style
+`simulate_coding_framework(list_of_lists)`.
+
+The class-method approach is easier to debug because each operation can be
+tested and stepped through independently. If you want to mimic CodeSignal's
+query-list input exactly, keep that as a thin wrapper that dispatches to the
+class methods; avoid putting the core state logic inside the wrapper.
+
+By default, tests load the editable exercise file named `simulation.py`. To
+verify the provided reference implementation instead, set `SIMULATION_MODULE`:
+
+```bash
+# Test your editable implementation
+pytest -q
+
+# Test the reference implementations
+SIMULATION_MODULE=simulation_solution pytest -q
+
+# Test one level while debugging
+pytest Questions/bank_system/test_bank_system.py::TestLevel4 -q
+```
+
+The `simulation.py` files are intentionally blank starting points, so default
+test failures are expected until you implement the exercise. The reference
+target should stay green and can be used to validate the test harness itself.
+
 ### Running Tests
 
 Each level has its own test suite. Run tests for a specific level from the <u>**root directory**</u>:
@@ -129,6 +160,10 @@ LibreSignal/
         ├── simulation_solution.py  # Reference solution
         └── test_in_memory_database.py  # Test suite
 ```
+
+`Questions/storage/` and `Questions/workers/` currently contain prompt files
+only. Add `simulation.py`, `simulation_solution.py`, and a test suite before
+treating them as runnable drills.
 
 ## 📚 Official Documentation
 
