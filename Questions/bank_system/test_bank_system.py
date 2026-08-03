@@ -9,10 +9,13 @@ Date: Jan 2026
 """
 import pytest
 import sys
-import os
-# Uncomment the following line to import solution implementation for testing
-# from simulation_solution import InMemoryDatabase
-from simulation import Simulation
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
+from _test_loader import load_class
+
+Simulation = load_class(__file__, "Simulation")
 
 class TestLevel1:
     def test_create_account(self):
@@ -223,3 +226,15 @@ class TestLevel4:
         assert simulation.get_balance(24 * 60 * 60 * 1000 + 5,
                                       "acc1",
                                       24 * 60 * 60 * 1000 + 3) == 706
+
+    def test_merge_does_not_rewrite_primary_history(self):
+        simulation = Simulation()
+        simulation.create_account(1, "acc1")
+        simulation.deposit(2, "acc1", 100)
+        simulation.create_account(3, "acc2")
+        simulation.deposit(4, "acc2", 1000)
+
+        assert simulation.merge_accounts(5, "acc1", "acc2") == True
+        assert simulation.get_balance(6, "acc1", 2) == 100
+        assert simulation.get_balance(7, "acc1", 4) == 100
+        assert simulation.get_balance(8, "acc1", 5) == 1100

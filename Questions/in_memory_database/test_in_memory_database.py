@@ -1,7 +1,12 @@
 import pytest
-# Uncomment the following line to import solution implementation for testing
-# from simulation_solution import InMemoryDatabase
-from simulation import InMemoryDatabase
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
+from _test_loader import load_class
+
+InMemoryDatabase = load_class(__file__, "InMemoryDatabase")
 
 class TestLevel1:
     def test_set_and_get(self):
