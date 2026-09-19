@@ -10,7 +10,7 @@ The banking system should support merging two accounts while retaining both acco
     *   The balance of `account_id_2` should be added to the balance of `account_id_1`.
     *   `top_spenders` operations should recognize merged accounts – the total outgoing transactions for merged accounts should be the sum of all money transferred and/or withdrawn in both accounts.
     *   `account_id_2` should be removed from the system after the merge.
-*   `get_balance(self, timestamp: int, account_id: str, time_at: int) -> int | None` — should return the total amount of money in the account `account_id` at the given timestamp `time_at`. If the specified account did not exist at a given time `time_at`, returns `None`.
+*   `get_balance(self, timestamp: int, account_id: str, time_at: int) -> int | None` — should return the total amount of money in the account `account_id` at the given timestamp `time_at`. If the specified account did not exist at a given time `time_at`, returns `None`. The `time_at` will always be less than or equal to the given timestamp.
     *   If queries have been processed at timestamp `time_at`, `get_balance` must reflect the account balance **after** the query has been processed.
     *   If the account was merged into another account, the merged account should inherit its balance history.
 
