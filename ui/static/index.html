@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LibreSignal</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚦</text></svg>">
+  <link rel="stylesheet" href="/vendor/codemirror.css">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#/" title="All questions">
+      <span class="brand-icon">🚦</span><span>LibreSignal</span>
+    </a>
+    <nav class="crumbs" id="crumbs"></nav>
+    <div class="spacer"></div>
+    <div class="timer" id="timer" hidden>
+      <span class="timer-label">Time left</span>
+      <span class="timer-value" id="timer-value">70:00</span>
+      <button class="icon-btn" id="timer-toggle" title="Start / pause">▶</button>
+      <button class="icon-btn" id="timer-reset" title="Reset timer">↺</button>
+    </div>
+    <button class="icon-btn" id="theme-toggle" title="Toggle light / dark theme" aria-label="Toggle theme">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg>
+    </button>
+  </header>
+
+  <!-- Home: question picker -->
+  <main id="home" class="home" hidden>
+    <section class="hero">
+      <h1>Practice the Industry Coding Framework</h1>
+      <p>Four progressive levels, ~70 minutes, one <code>simulation.py</code>.
+         Each level unlocks once every test in the previous one passes — just like the real thing.</p>
+    </section>
+    <section class="cards" id="cards"></section>
+  </main>
+
+  <!-- Workspace: spec | editor + results -->
+  <main id="workspace" class="workspace" hidden>
+    <section class="pane spec-pane">
+      <div class="level-tabs" id="level-tabs"></div>
+      <article class="markdown" id="spec"></article>
+    </section>
+
+    <div class="splitter" id="splitter" title="Drag to resize"></div>
+
+    <section class="pane code-pane">
+      <div class="toolbar">
+        <div class="file-tabs" id="file-tabs">
+          <button class="file-tab active" data-file="simulation">simulation.py</button>
+          <button class="file-tab" data-file="tests">tests</button>
+          <button class="file-tab" data-file="solution">solution</button>
+        </div>
+        <div class="spacer"></div>
+        <span class="save-state" id="save-state"></span>
+        <button class="btn" id="save-btn" title="Save (Ctrl/⌘+S)">Save</button>
+        <button class="btn" id="run-all-btn" title="Run every level's tests">Run all</button>
+        <button class="btn primary" id="run-btn" title="Run current level (Ctrl/⌘+Enter)">Run Level 1</button>
+      </div>
+      <div class="editor-wrap" id="editor-wrap">
+        <textarea id="editor" spellcheck="false"></textarea>
+        <div class="no-code" id="no-code" hidden>
+          <div>
+            <h3>No starter code or tests yet</h3>
+            <p>This question only has its spec so far. Create a <code>simulation.py</code> and a
+               <code>test_*.py</code> with <code>TestLevel1…4</code> classes in its folder to practice it here.</p>
+          </div>
+        </div>
+      </div>
+      <div class="results" id="results">
+        <div class="results-head">
+          <strong>Test results</strong>
+          <span id="results-summary" class="muted">Run the tests to see results.</span>
+          <div class="spacer"></div>
+          <button class="link-btn" id="toggle-output">Raw output</button>
+          <button class="icon-btn" id="results-collapse" title="Collapse">▾</button>
+        </div>
+        <div class="results-body" id="results-body"></div>
+        <pre class="raw-output" id="raw-output" hidden></pre>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="/vendor/marked.min.js"></script>
+  <script src="/vendor/codemirror.js"></script>
+  <script src="/vendor/python.js"></script>
+  <script src="/vendor/matchbrackets.js"></script>
+  <script src="/vendor/closebrackets.js"></script>
+  <script src="/vendor/active-line.js"></script>
+  <script src="/vendor/comment.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>
