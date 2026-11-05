@@ -68,6 +68,22 @@ For example, instead of storing account data in a simple dict, create an `Accoun
    pip install -r requirements.txt
    ```
 
+### 🖥️ Web UI (recommended)
+
+LibreSignal ships with a browser-based IDE that mimics the real assessment: specs on the left, editor on the right, tests per level, a 70-minute timer, and levels that unlock only after you pass the previous one.
+
+```bash
+python ui/server.py --open
+```
+
+Then visit <http://127.0.0.1:8000>. No extra dependencies are needed beyond `pytest`; the server uses only the Python standard library and runs fully offline.
+
+- **Run Level N** (`Ctrl/⌘ + Enter`) saves your code and runs `TestLevelN`; **Run all** runs every level
+- **Save** (`Ctrl/⌘ + S`) writes straight to `Questions/<question>/simulation.py`, so you can switch between the UI and your own editor
+- The **tests** and **solution** tabs are read-only (the solution asks before revealing itself)
+- Tick **Unlock all** to browse every level without passing the previous one
+- Progress and the timer are saved in your browser's local storage
+
 ### Implementing Your Solution
 
 1. Navigate to the question folder (e.g., `Questions/bank_system/`)
@@ -111,6 +127,9 @@ pytest Questions/in_memory_database/test_in_memory_database.py -v
 LibreSignal/
 ├── README.md
 ├── requirements.txt
+├── ui/
+│   ├── server.py                   # Web UI server (python ui/server.py)
+│   └── static/                     # Frontend (HTML/CSS/JS + vendored libs)
 └── Questions/
     ├── bank_system/
     │   ├── level1.md               # Level 1 requirements
